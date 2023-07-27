@@ -21,6 +21,7 @@
 			{
 				"endOfLine": "auto"
 			}
-		]
+		],
+		"@typescript-eslint/no-confusing-void-expression": "off"
 	}
 }
