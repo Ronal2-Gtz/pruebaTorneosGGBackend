@@ -20,10 +20,11 @@ const getNews = async (_req: Request, res: Response) => {
 };
 const createNews = async (req: Request, res: Response) => {
 	try {
-		const { title, content, user } = req.body;
+		const { title, content, user, img } = req.body;
 		const news = new News();
 		news.title = title;
 		news.content = content;
+		news.img = img;
 		news.user = user;
 		const newNews = await news.save();
 		res.json({ message: 'News created', newNews });
