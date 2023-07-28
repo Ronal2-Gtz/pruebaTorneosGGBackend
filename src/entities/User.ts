@@ -11,7 +11,7 @@ import { Commentary } from './Commentary';
 @Entity()
 export class User extends BaseEntity {
 	@PrimaryGeneratedColumn()
-	id: number;
+	id: string;
 
 	@Column()
 	name: string;

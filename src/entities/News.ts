@@ -13,7 +13,7 @@ import { Commentary } from './Commentary';
 @Entity()
 export class News extends BaseEntity {
 	@PrimaryGeneratedColumn()
-	id: number;
+	id: string;
 
 	@Column()
 	title: string;
