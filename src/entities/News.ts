@@ -21,6 +21,9 @@ export class News extends BaseEntity {
 	@Column()
 	content: string;
 
+	@Column()
+	img: string;
+
 	@OneToMany(() => Commentary, (commentary) => commentary.news)
 	commentaries: Commentary[];
 

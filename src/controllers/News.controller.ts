@@ -1,5 +1,6 @@
 import { type Request, type Response } from 'express';
 import { News } from '../entities/News';
+import { Commentary } from '../entities/Commentary';
 
 const getNewsById = async (req: Request, res: Response) => {
 	try {
@@ -20,10 +21,11 @@ const getNews = async (_req: Request, res: Response) => {
 };
 const createNews = async (req: Request, res: Response) => {
 	try {
-		const { title, content, user } = req.body;
+		const { title, content, user, img } = req.body;
 		const news = new News();
 		news.title = title;
 		news.content = content;
+		news.img = img;
 		news.user = user;
 		const newNews = await news.save();
 		res.json({ message: 'News created', newNews });
@@ -37,7 +39,7 @@ const updateNews = async (req: Request, res: Response) => {
 		const news = await News.findOneBy({ id });
 		if (!news) return res.status(404).json({ message: 'News does not exists' });
 		await News.update({ id }, req.body);
-		res.json({ message: 'News created' });
+		res.json({ message: 'News updated' });
 	} catch (error) {
 		res.status(404).json(error);
 	}
@@ -45,6 +47,14 @@ const updateNews = async (req: Request, res: Response) => {
 const deleteNews = async (req: Request, res: Response) => {
 	try {
 		const { id } = req.params;
+		const commentaries = await Commentary.find({
+			where: { news: { id } },
+		});
+
+		commentaries.forEach(
+			async (commentary) => await Commentary.delete(commentary.id)
+		);
+
 		const deleteNews = await News.delete({ id });
 		if (!deleteNews.affected)
 			return res.status(404).json({ message: 'News does not found' });

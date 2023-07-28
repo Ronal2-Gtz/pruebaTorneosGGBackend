@@ -4,7 +4,6 @@ import {
 	PrimaryGeneratedColumn,
 	Column,
 	ManyToOne,
-	JoinColumn,
 } from 'typeorm';
 import { User } from './User';
 import { News } from './News';
@@ -18,10 +17,8 @@ export class Commentary extends BaseEntity {
 	commentary: string;
 
 	@ManyToOne(() => News, (news) => news.commentaries)
-	@JoinColumn({ name: 'newsID' })
 	news: News;
 
 	@ManyToOne(() => User, (user) => user.commentaries)
-	@JoinColumn({ name: 'userID' })
 	user: User;
 }

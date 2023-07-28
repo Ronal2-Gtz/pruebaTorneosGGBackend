@@ -11,7 +11,7 @@ const AppDataSource = new DataSource({
 	port: 5432,
 	database: 'news',
 	entities: [Commentary, News, User],
-	logging: true,
+
 	synchronize: true,
 });
 
