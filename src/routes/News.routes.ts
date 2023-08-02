@@ -13,6 +13,6 @@ router.get('/:id', getNewsById);
 router.get('/', getNews);
 router.post('/', createNews);
 router.put('/:id', updateNews);
-router.put('/:id', deleteNews);
+router.delete('/:id', deleteNews);
 
 export default router;

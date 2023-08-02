@@ -1,12 +1,17 @@
 import { type Request, type Response } from 'express';
 import { Commentary } from '../entities/Commentary';
+import { User } from '../entities/User';
 
 const getCommentaryByNewId = async (req: Request, res: Response) => {
 	try {
 		const { newsId } = req.params;
 		const commentaries = await Commentary.find({
 			where: { news: { id: newsId } },
+			relations: {
+				user: true,
+			},
 		});
+
 		res.json(commentaries);
 	} catch (error) {
 		res.status(404).json(error);
@@ -15,10 +20,14 @@ const getCommentaryByNewId = async (req: Request, res: Response) => {
 const createCommentary = async (req: Request, res: Response) => {
 	try {
 		const { commentary, news, user } = req.body;
+		const userDB = await User.findOneBy({ id: user });
+		if (!userDB) {
+			return res.status(404).json({ message: 'User does not exists' });
+		}
 		const newCommentary = new Commentary();
 		newCommentary.commentary = commentary;
 		newCommentary.news = news;
-		newCommentary.user = user;
+		newCommentary.user = userDB;
 		const createCommentary = await newCommentary.save();
 		res.json({ message: 'Commentary created', createCommentary });
 	} catch (error) {

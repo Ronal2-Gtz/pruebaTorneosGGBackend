@@ -1,6 +1,19 @@
 import { type Request, type Response } from 'express';
 import { User } from '../entities/User';
 
+const getUsers = async (req: Request, res: Response) => {
+	try {
+		const users = await User.find();
+		const userMap = users.map((user) => {
+			const { password, ...otherKeys } = user;
+			return otherKeys;
+		});
+		res.json(userMap);
+	} catch (error) {
+		res.status(404).json(error);
+	}
+};
+
 const getUserById = async (req: Request, res: Response) => {
 	try {
 		const { id } = req.params;
@@ -37,4 +50,4 @@ const updateUser = async (req: Request, res: Response) => {
 	}
 };
 
-export { getUserById, createUser, updateUser };
+export { getUserById, createUser, updateUser, getUsers };
